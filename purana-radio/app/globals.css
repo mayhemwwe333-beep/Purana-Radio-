@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  /* Old Delhi bazaar at golden hour, per the reference art: sandstone,
+     cassette-shop cream, film-poster vermillion, hand-painted-signboard teal. */
+  --color-cream: #f3e7c9;
+  --color-vermillion: #c4432b;
+  --color-amber: #d9a441;
+  --color-teal: #1f4b4a;
+  --color-ink: #150f0a;
+
+  --font-display: var(--font-yeseva), "Noto Sans Devanagari", serif;
+  --font-ui: var(--font-inter), "Noto Sans Devanagari", sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-ui);
+  }
+}
+
+/* Background plate — swapped for a separately-composed portrait crop, not a
+   CSS crop of the landscape one, so nothing important gets cut off. */
+.hero-bg {
+  background-image: url("/bg/scene-wide.png");
+}
+
+@media (orientation: portrait) {
+  .hero-bg {
+    background-image: url("/bg/scene-tall.png");
+  }
+}
+
+/* Fixed grain overlay: an inline feTurbulence data-URI, no image request. */
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-start infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
